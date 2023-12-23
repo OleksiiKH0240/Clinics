@@ -11,7 +11,8 @@ const PORT = Number(process.env.PORT) || 80;
 const app = express();
 
 app.all("/graphql", createHandler({
-    schema, rootValue: clinic
+    schema, 
+    rootValue: clinic
 }));
 
 app.get("/", (req: Request, res: Response) => {
@@ -20,5 +21,5 @@ app.get("/", (req: Request, res: Response) => {
 
 app.listen({ port: PORT }, async () => {
     console.log(`app is listening on port ${PORT}.`);
-    await initialRep.migrate();
+    await initialRep.init();
 });

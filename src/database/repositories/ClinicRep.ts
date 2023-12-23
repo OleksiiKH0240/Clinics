@@ -1,7 +1,7 @@
 import { db } from "../databaseConnection";
 import clinics from "../schemas/clinics";
 import { ClinicsSearchReturnType } from "../../types/RepReturnTypes";
-import { eq } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 
 class ClinicRep {
@@ -20,7 +20,7 @@ class ClinicRep {
             suburb: clinics.suburb,
             state: clinics.state,
             email: clinics.email,
-        }).from(clinics).where(eq(clinics.city, city));
+        }).from(clinics).where(sql.raw(`lower(city) like '${city.toLowerCase()}%'`));
         return queryResult;
     }
 
@@ -34,7 +34,7 @@ class ClinicRep {
             suburb: clinics.suburb,
             state: clinics.state,
             email: clinics.email,
-        }).from(clinics).where(eq(clinics.state, state));
+        }).from(clinics).where(sql.raw(`lower(state) like '${state.toLowerCase()}%'`));
         return queryResult;
     }
 
@@ -48,7 +48,7 @@ class ClinicRep {
             suburb: clinics.suburb,
             state: clinics.state,
             email: clinics.email,
-        }).from(clinics).where(eq(clinics.postcode, postcode));
+        }).from(clinics).where(sql.raw(`lower(postcode) like '${postcode.toLowerCase()}%'`));
         return queryResult;
     }
 
@@ -62,7 +62,7 @@ class ClinicRep {
             suburb: clinics.suburb,
             state: clinics.state,
             email: clinics.email,
-        }).from(clinics).where(eq(clinics.clinicName, clinicName));
+        }).from(clinics).where(sql.raw(`lower(clinic_name) like '${clinicName.toLowerCase()}%'`));
         return queryResult;
     }
 
@@ -76,7 +76,7 @@ class ClinicRep {
             suburb: clinics.suburb,
             state: clinics.state,
             email: clinics.email,
-        }).from(clinics).where(eq(clinics.suburb, suburb));
+        }).from(clinics).where(sql.raw(`lower(suburb) like '${suburb.toLowerCase()}%'`));
         return queryResult;
     }
 

@@ -1,5 +1,4 @@
 import { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
-import clinic from "./resolvers/Clinic";
 
 
 /**
@@ -25,6 +24,18 @@ const GraphQlClinicType = new GraphQLObjectType({
 })
 
 
+// const ClinicsInputType = new GraphQLInputObjectType({
+//     name: "ClinicsInput",
+//     fields: {
+//         city: { type: GraphQLString },
+//         state: { type: GraphQLString },
+//         postcode: { type: GraphQLString },
+//         clinicName: { type: GraphQLString },
+//         suburb: { type: GraphQLString }
+//     }
+// });
+
+
 
 const RootQuery = new GraphQLObjectType({
     name: "RootQuery",
@@ -36,36 +47,46 @@ const RootQuery = new GraphQLObjectType({
                 return "healthy";
             }
         },
-        getClinicsByCity: {
+        getClinicsBy: {
             type: new GraphQLList(GraphQlClinicType),
             args: {
-                city: { type: GraphQLString }
-            }
-        },
-        getClinicsByState: {
-            type: new GraphQLList(GraphQlClinicType),
-            args: {
-                state: { type: GraphQLString }
-            }
-        },
-        getClinicsByPostcode: {
-            type: new GraphQLList(GraphQlClinicType),
-            args: {
-                postcode: { type: GraphQLString }
-            }
-        },
-        getClinicsByClinicName: {
-            type: new GraphQLList(GraphQlClinicType),
-            args: {
-                clinicName: { type: GraphQLString }
-            }
-        },
-        getClinicsBySuburb: {
-            type: new GraphQLList(GraphQlClinicType),
-            args: {
+                city: { type: GraphQLString},
+                state: { type: GraphQLString },
+                postcode: { type: GraphQLString },
+                clinicName: { type: GraphQLString },
                 suburb: { type: GraphQLString }
             }
         },
+        // getClinicsByCity: {
+        //     type: new GraphQLList(GraphQlClinicType),
+        //     args: {
+        //         city: { type: GraphQLString }
+        //     }
+        // },
+        // getClinicsByState: {
+        //     type: new GraphQLList(GraphQlClinicType),
+        //     args: {
+        //         state: { type: GraphQLString }
+        //     }
+        // },
+        // getClinicsByPostcode: {
+        //     type: new GraphQLList(GraphQlClinicType),
+        //     args: {
+        //         postcode: { type: GraphQLString }
+        //     }
+        // },
+        // getClinicsByClinicName: {
+        //     type: new GraphQLList(GraphQlClinicType),
+        //     args: {
+        //         clinicName: { type: GraphQLString }
+        //     }
+        // },
+        // getClinicsBySuburb: {
+        //     type: new GraphQLList(GraphQlClinicType),
+        //     args: {
+        //         suburb: { type: GraphQLString }
+        //     }
+        // },
         test: {
             type: GraphQLString,
             args: {

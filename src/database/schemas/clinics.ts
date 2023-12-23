@@ -1,4 +1,4 @@
-import { text, index } from "drizzle-orm/pg-core";
+import { text, index, IndexColumn } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { mySchema } from "../schemasConfig";
 
@@ -32,11 +32,12 @@ const clinics = mySchema.table("clinics", {
     aboutClinic: text("about_clinic")
 },
     (table) => ({
-        clinicsCityIdx: index("clinics_city_idx").on(table.city),
-        clinicsStateIdx: index("clinics_state_idx").on(table.state),
-        clinicsPostcodeIdx: index("clinics_postcode_idx").on(table.postcode),
-        clinicsClinicNameIdx: index("clinics_clinic_name_idx").on(table.clinicName),
-        clinicsSuburbIdx: index("clinics_suburb_idx").on(table.suburb),
+        // clinicsCityIdx: index("clinics_city_idx").on(sql`lower(${table.city})` as unknown as IndexColumn),
+        // clinicsCityIdx: sql`CREATE INDEX clinics_city_idx ON clinincs (lower(city));`,
+        // clinicsStateIdx: index("clinics_state_idx").on(table.state),
+        // clinicsPostcodeIdx: index("clinics_postcode_idx").on(table.postcode),
+        // clinicsClinicNameIdx: index("clinics_clinic_name_idx").on(table.clinicName),
+        // clinicsSuburbIdx: index("clinics_suburb_idx").on(table.suburb),
     })
 )
 
