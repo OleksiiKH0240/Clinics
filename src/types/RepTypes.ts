@@ -9,4 +9,10 @@ export type ClinicSearchReturnType = {
     email: string | null;
 };
 
-export type ClinicsSearchReturnType = ClinicSearchReturnType[];
+export type ClinicsSearchArgsType = {
+    city?: string | null,
+    state?: string | null,
+    postcode?: number | null,
+    clinicName?: string | null,
+    suburb?: string | null
+};

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS "clinics"."clinics" (
 	"city" text,
 	"suburb" text,
 	"state" text,
-	"postcode" text,
+	"postcode" integer,
 	"email" text,
 	"phone" text,
 	"nearby1_txt" text,

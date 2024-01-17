@@ -1,4 +1,4 @@
-import { text, index, IndexColumn } from "drizzle-orm/pg-core";
+import { text, integer, index, IndexColumn } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { mySchema } from "../schemasConfig";
 
@@ -18,7 +18,7 @@ const clinics = mySchema.table("clinics", {
     city: text("city"),
     suburb: text("suburb"),
     state: text("state"),
-    postcode: text("postcode"),
+    postcode: integer("postcode"),
     email: text("email"),
     phone: text("phone"),
     nearby1Txt: text("nearby1_txt"),

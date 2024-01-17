@@ -1,5 +1,5 @@
 {
-  "id": "9f7b605d-1c0f-43a8-9749-37a83ce0d964",
+  "id": "fbee0a27-1d09-4956-9ab8-5f6e5f0cd9b3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -176,7 +176,7 @@
         },
         "postcode": {
           "name": "postcode",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },

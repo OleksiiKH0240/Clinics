@@ -1,7 +1,7 @@
 import { db } from "../databaseConnection";
 import clinics from "../schemas/clinics";
-import { ClinicsSearchReturnType } from "../../types/RepReturnTypes";
-import { sql } from "drizzle-orm";
+import { ClinicSearchReturnType, ClinicsSearchArgsType } from "../../types/RepTypes";
+import { eq, sql } from "drizzle-orm";
 
 
 class ClinicRep {
@@ -10,8 +10,8 @@ class ClinicRep {
         this.dbClient = dbClient;
     }
 
-    getClinicsByCity = async (city: string): Promise<ClinicsSearchReturnType> => {
-        const queryResult = await this.dbClient.select({
+    getClinincsBy = async (args: ClinicsSearchArgsType): Promise<ClinicSearchReturnType[]> => {
+        const querySelectFrom = this.dbClient.select({
             slug: clinics.slug,
             clinicName: clinics.clinicName,
             fullAddress: clinics.fullAddress,
@@ -20,66 +20,27 @@ class ClinicRep {
             suburb: clinics.suburb,
             state: clinics.state,
             email: clinics.email,
-        }).from(clinics).where(sql.raw(`lower(city) like '${city.toLowerCase()}%'`));
-        return queryResult;
-    }
+        }).from(clinics);
 
-    getClinicsByState = async (state: string): Promise<ClinicsSearchReturnType> => {
-        const queryResult = await this.dbClient.select({
-            slug: clinics.slug,
-            clinicName: clinics.clinicName,
-            fullAddress: clinics.fullAddress,
-            website: clinics.website,
-            phone: clinics.phone,
-            suburb: clinics.suburb,
-            state: clinics.state,
-            email: clinics.email,
-        }).from(clinics).where(sql.raw(`lower(state) like '${state.toLowerCase()}%'`));
-        return queryResult;
+        if (args.city !== undefined && args.city !== null) {
+            return await querySelectFrom.where(sql.raw(`lower(city) like '${args.city.toLowerCase()}%'`));
+        }
+        else if (args.state !== undefined && args.state !== null) {
+            return await querySelectFrom.where(sql.raw(`lower(state) like '${args.state.toLowerCase()}%'`));
+        }
+        else if (args.postcode !== undefined && args.postcode !== null) {
+            return await querySelectFrom.where(eq(clinics.postcode, args.postcode));
+        }
+        else if (args.clinicName !== undefined && args.clinicName !== null) {
+            return await querySelectFrom.where(sql.raw(`lower(clinic_name) like '${args.clinicName.toLowerCase()}%'`));
+        }
+        else if (args.suburb !== undefined && args.suburb !== null) {
+            return await querySelectFrom.where(sql.raw(`lower(suburb) like $$${args.suburb.toLowerCase()}%$$`));
+        }
+        else {
+            return await querySelectFrom;
+        }
     }
-
-    getClinicsByPostcode = async (postcode: string): Promise<ClinicsSearchReturnType> => {
-        const queryResult = await this.dbClient.select({
-            slug: clinics.slug,
-            clinicName: clinics.clinicName,
-            fullAddress: clinics.fullAddress,
-            website: clinics.website,
-            phone: clinics.phone,
-            suburb: clinics.suburb,
-            state: clinics.state,
-            email: clinics.email,
-        }).from(clinics).where(sql.raw(`lower(postcode) like '${postcode.toLowerCase()}%'`));
-        return queryResult;
-    }
-
-    getClinicsByClinicName = async (clinicName: string): Promise<ClinicsSearchReturnType> => {
-        const queryResult = await this.dbClient.select({
-            slug: clinics.slug,
-            clinicName: clinics.clinicName,
-            fullAddress: clinics.fullAddress,
-            website: clinics.website,
-            phone: clinics.phone,
-            suburb: clinics.suburb,
-            state: clinics.state,
-            email: clinics.email,
-        }).from(clinics).where(sql.raw(`lower(clinic_name) like '${clinicName.toLowerCase()}%'`));
-        return queryResult;
-    }
-
-    getClinicsBySuburb = async (suburb: string): Promise<ClinicsSearchReturnType> => {
-        const queryResult = await this.dbClient.select({
-            slug: clinics.slug,
-            clinicName: clinics.clinicName,
-            fullAddress: clinics.fullAddress,
-            website: clinics.website,
-            phone: clinics.phone,
-            suburb: clinics.suburb,
-            state: clinics.state,
-            email: clinics.email,
-        }).from(clinics).where(sql.raw(`lower(suburb) like '${suburb.toLowerCase()}%'`));
-        return queryResult;
-    }
-
 }
 
 export default new ClinicRep();
